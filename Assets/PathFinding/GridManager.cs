@@ -59,7 +59,7 @@ public class GridManager : MonoBehaviour
     {
         Vector3 position = new Vector3();
         position.x = coordinates.x * unityGridSize;
-        position.y = coordinates.y * unityGridSize;
+        position.z = coordinates.y * unityGridSize;
 
         return position;
     }
@@ -72,7 +72,6 @@ public class GridManager : MonoBehaviour
             {
                 Vector2Int coordinates = new Vector2Int(x, y);
                 grid.Add(coordinates, new Node(coordinates, true));
-                Debug.Log(grid[coordinates].coordinates + " = " + grid[coordinates].isWalkable);
             }
         }
     }

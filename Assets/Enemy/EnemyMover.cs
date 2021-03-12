@@ -13,6 +13,12 @@ public class EnemyMover : MonoBehaviour
     GridManager gridManager;
     PathFinder pathFinder;
 
+    void OnEnable()
+    {
+        ReturnToStart();
+        RecalulatePath(true); 
+    }
+
     void Awake()
     {
         enemy = GetComponent<Enemy>();
@@ -20,17 +26,23 @@ public class EnemyMover : MonoBehaviour
         pathFinder = FindObjectOfType<PathFinder>();
     }
 
-    void OnEnable()
+    void RecalulatePath(bool resetPath)
     {
-        FindPath();
-        ReturnToStart();
-        StartCoroutine(FollowPath());
-    }
+        Vector2Int coordinates = new Vector2Int();
 
-    void FindPath()
-    {
+        if(resetPath)
+        {
+            coordinates = pathFinder.StartCoordinates;
+        }
+        else
+        {
+            coordinates = gridManager.GetCoordinatesFromPosition(transform.position);
+        }
+
+        StopAllCoroutines();
         path.Clear();
-        path = pathFinder.GetNewPath();
+        path = pathFinder.GetNewPath(coordinates);
+        StartCoroutine(FollowPath());
     }
 
     void ReturnToStart()
@@ -46,7 +58,7 @@ public class EnemyMover : MonoBehaviour
 
     IEnumerator FollowPath()
     {
-        for(int i = 0; i < path.Count; i++)
+        for(int i = 1; i < path.Count; i++)
         {
             Vector3 startPosition = transform.position;
             Vector3 endPosition = gridManager.GetPositionFromCoordinates(path[i].coordinates);

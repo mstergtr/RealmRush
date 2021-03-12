@@ -62,6 +62,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cost: 50
+  buildDelay: 1
+  meshBase: {fileID: 8293807043288370748}
+  meshTop: {fileID: 6131056645070147807}
+  ballistaPS: {fileID: 4797855055336723343}
 --- !u!1 &4797855055336723343
 GameObject:
   m_ObjectHideFlags: 0

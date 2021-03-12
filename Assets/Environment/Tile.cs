@@ -5,6 +5,7 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
     [SerializeField] Tower towerPrefab;
+
     //below is use of property. Good to use instead of getter method. Notice capitalization for isPlaceable.
     [SerializeField] bool isPlaceable;
     public bool IsPlaceable { get { return isPlaceable; } }
@@ -36,9 +37,12 @@ public class Tile : MonoBehaviour
     {
         if(gridManager.GetNode(coordinates).isWalkable && !pathFinder.WillBlockPath(coordinates))
         {
-            bool isPlaced = towerPrefab.CreateTower(towerPrefab, transform.position);
-            isPlaceable = !isPlaced;
-            gridManager.BlockNode(coordinates);
+            bool isSuccessful = towerPrefab.CreateTower(towerPrefab, transform.position);
+            if(isSuccessful)
+            {
+                gridManager.BlockNode(coordinates);
+                pathFinder.NotifyReceivers();
+            } 
         }
     }
 }
